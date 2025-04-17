@@ -12,8 +12,8 @@ const Dashboard: React.FC = memo(() => {
       {/* Dashboard Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {[
-          { title: "Total Sales", value: "₹12,345", change: "+12%" },
-          { title: "Total Orders", value: "1,234", change: "+8%" },
+          { title: "Total Bookings", value: "₹12,345", change: "+12%" },
+          { title: "Total Rooms", value: "1,234", change: "+8%" },
           { title: "Total Products", value: "567", change: "+5%" },
           { title: "Total Customers", value: "4,321", change: "+10%" },
         ].map((item, index) => (
@@ -36,7 +36,7 @@ const Dashboard: React.FC = memo(() => {
                 <th className="py-2">Customer</th>
                 <th className="py-2">Date</th>
                 <th className="py-2">Amount</th>
-                <th className="py-2">Status</th>
+                <th className="py-2">PyamentStatus</th>
               </tr>
             </thead>
 
@@ -48,7 +48,7 @@ const Dashboard: React.FC = memo(() => {
                   name: "John Doe",
                   date: "2025-02-10",
                   amount: "₹199.99",
-                  status: "Delivered",
+                  paymentstatus: "Delivered",
                   statusColor: "green",
                 },
                 {
@@ -56,7 +56,7 @@ const Dashboard: React.FC = memo(() => {
                   name: "Jane Smith",
                   date: "2025-02-09",
                   amount: "₹299.99",
-                  status: "Pending",
+                  paymentstatus: "Pending",
                   statusColor: "yellow",
                 },
                 {
@@ -64,7 +64,7 @@ const Dashboard: React.FC = memo(() => {
                   name: "Alice Johnson",
                   date: "2025-02-08",
                   amount: "₹99.99",
-                  status: "Cancelled",
+                  paymentstatus: "Cancelled",
                   statusColor: "red",
                 },
               ].map((order, index) => (
@@ -77,7 +77,7 @@ const Dashboard: React.FC = memo(() => {
                     <span
                       className={`px-2 py-1 bg-${order.statusColor}-500 text-${order.statusColor}-800 rounded-full text-sm`}
                     >
-                      {order.status}
+                      {order.paymentstatus}
                     </span>
                   </td>
                 </tr>

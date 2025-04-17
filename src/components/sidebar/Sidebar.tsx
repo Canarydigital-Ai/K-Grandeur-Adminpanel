@@ -11,7 +11,7 @@ const Sidebar: React.FC = () => {
       case "Dashboard":
         navigate("/admin/dashboard");
         break;
-      case "Orders":
+      case "Rooms":
         navigate("/admin/orders");
         break;
       case "Products":
@@ -45,10 +45,9 @@ const Sidebar: React.FC = () => {
         <h2 className="text-xl font-bold text-gray-800">Admin Panel</h2>
       </div>
       <nav className="mt-4 ">
-        {["Dashboard", "Orders", "Products", "Customers", "Category","Coupons","Logout"].map(
+        {["Dashboard", "Rooms", "Bookings", "Category", "Logout"].map(
           (item, index) => {
             const bgClass = selectedItem === item ? "bg-gray-200" : "bg-transparent";
-
             return (
               <p
                 key={index}
