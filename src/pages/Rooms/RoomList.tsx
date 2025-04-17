@@ -3,7 +3,7 @@ import { ActionIcon, TextInput } from "@mantine/core";
 import { useDebouncedValue } from "@mantine/hooks";
 import { IconSearch, IconX } from "@tabler/icons-react";
 import { ToastContainer, toast } from "react-toastify";
-import ConfirmDialog from "../../dialogs/ConfirmDialog";
+// import ConfirmDialog from "../../dialogs/ConfirmDialog";
 import { useNavigate } from "react-router-dom";
 import {
   DataTable,
@@ -12,20 +12,20 @@ import {
 } from "mantine-datatable";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { FiEdit } from "react-icons/fi";
-import Dropdown from "../../../Layouts/Dropdown";
+// import Dropdown from "../../../Layouts/Dropdown";
 import "@mantine/core/styles.css";
 import "mantine-datatable/styles.css";
 import "react-toastify/dist/ReactToastify.css";
 import { IoIosArrowDown } from "react-icons/io";
 import Swal from "sweetalert2";
-import { downloadExcel } from "../../../utils/Excel";
+// import { downloadExcel } from "../../../utils/Excel";
 import { FaPlus } from "react-icons/fa";
-import {
-  getProducts,
-  deleteProduct,
-  updateStatus,
-  updateNewArrival,
-} from "../../../api/services/admin/ProductService";
+// import {
+//   getProducts,
+//   deleteProduct,
+//   updateStatus,
+//   updateNewArrival,
+// } from "../../../api/services/admin/ProductService";
 
 interface Products {
   _id: string;

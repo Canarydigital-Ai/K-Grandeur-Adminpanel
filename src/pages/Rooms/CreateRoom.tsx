@@ -1,9 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Modal from "../../components/Modal"; 
 import ProductFormModule from "./RoomFormModule";
-// import { createRoom } from "../../../api/services/admin/ProductService";
-// import { getCategories } from "../../../api/services/admin/CategoryService";
 import { handleFileUpload } from "../../utils/handleImageUpload"; 
 
 const CreateRoom: React.FC = () => {
