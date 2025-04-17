@@ -2,7 +2,6 @@ import React, { memo } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import AdminLogo from "../../assets/AdminLogo.jpg";
-// import { loginAdmin } from "../../api/services/admin/authService";
 import { useNavigate } from "react-router-dom";
 import { loginAdmin } from "../../api/services/authService";
 
@@ -26,13 +25,21 @@ const AdminLogin: React.FC = memo(() => {
     onSubmit: async (values) => {
       try {
         const response = await loginAdmin(values);
-        if (response) {
+        console.log("Login API response:", response);
+    
+        if (response?.data?.token) {
+          console.log("Token present, navigating...");
           navigate("/admin/dashboard");
+        } else {
+          console.log("Token missing or response invalid.");
         }
       } catch (error) {
-        console.log(error);
+        console.log("Login failed", error);
       }
-    },
+    }
+    
+    
+    
   });
 
   return (

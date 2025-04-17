@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import AdminLogo from "../../../assets/AdminLogo.jpg";
-
+import AdminLogo from "../../assets/AdminLogo.jpg"
 const Sidebar: React.FC = () => {
   const [selectedItem, setSelectedItem] = useState<string>("Dashboard");
   const navigate = useNavigate();
