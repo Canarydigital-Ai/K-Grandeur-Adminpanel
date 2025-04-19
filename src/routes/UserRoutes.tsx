@@ -7,6 +7,7 @@ import SidebarLayout from "../layout/SidebarLayout";
 // Lazy-loaded pages
 const AdminLogin = lazy(() => import("../pages/auth/AdminLogin"));
 const Dashboard = lazy(() => import("../pages/dashboard/Dashboard"));
+const RoomList = lazy(() => import("../pages/Rooms/RoomList"));
 
 const AppRoutes = memo(() => {
   return (
@@ -29,6 +30,7 @@ const AppRoutes = memo(() => {
           <Route element={<ProtectRouter />}>
             <Route path="/admin" element={<SidebarLayout />}>
               <Route path="dashboard" element={<Dashboard />} />
+              <Route path="rooms" element={<RoomList />} />
             </Route>
           </Route>
         </Routes>

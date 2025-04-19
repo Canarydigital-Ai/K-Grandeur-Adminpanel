@@ -12,7 +12,7 @@ const Sidebar: React.FC = () => {
         navigate("/admin/dashboard");
         break;
       case "Rooms":
-        navigate("/admin/orders");
+        navigate("/admin/rooms");
         break;
       case "Products":
         navigate("/admin/products");

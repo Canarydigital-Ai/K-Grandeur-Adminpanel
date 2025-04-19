@@ -12,7 +12,7 @@ import {
 } from "mantine-datatable";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { FiEdit } from "react-icons/fi";
-// import Dropdown from "../../../Layouts/Dropdown";
+import Dropdown from "../../layout/Dropdown"; 
 import "@mantine/core/styles.css";
 import "mantine-datatable/styles.css";
 import "react-toastify/dist/ReactToastify.css";
@@ -20,6 +20,7 @@ import { IoIosArrowDown } from "react-icons/io";
 import Swal from "sweetalert2";
 // import { downloadExcel } from "../../../utils/Excel";
 import { FaPlus } from "react-icons/fa";
+import ConfirmDialog from "../../components/dialogs/ConfirmDialog";
 // import {
 //   getProducts,
 //   deleteProduct,
@@ -40,7 +41,7 @@ interface Products {
   updatedAt: Date;
 }
 
-const ProductList: React.FC = () => {
+const RoomList: React.FC = () => {
   const navigate = useNavigate();
   const [products, setProducts] = useState<Products[]>([]);
   const [page, setPage] = useState(1);
@@ -65,21 +66,21 @@ const ProductList: React.FC = () => {
   ]);
   const [selectedRecords, setSelectedRecords] = useState<string[]>([]);
 
-  useEffect(() => {
-    const fetchCategories = async () => {
-      setLoading(true);
-      try {
-        const products = await getProducts();
-        setProducts(products);
-      } catch (error) {
-        toast.error("Failed to fetch Products");
-      } finally {
-        setLoading(false);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchCategories = async () => {
+  //     setLoading(true);
+  //     try {
+  //       const products = await getProducts();
+  //       setProducts(products);
+  //     } catch (error) {
+  //       toast.error("Failed to fetch Products");
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
 
-    fetchCategories();
-  }, []);
+  //   fetchCategories();
+  // }, []);
 
   useEffect(() => {
     const filteredData = products.filter(({ name }) =>
@@ -108,7 +109,7 @@ const ProductList: React.FC = () => {
     if (!selectedProductId) return;
   
     try {
-      await deleteProduct(selectedProductId); // Service call with body payload
+      // await deleteProduct(selectedProductId); 
       setProducts((prevProducts) =>
         prevProducts.filter((product) => product._id !== selectedProductId)
       );
@@ -124,7 +125,7 @@ const ProductList: React.FC = () => {
 
   const handleToggleStatus = async (productId: string, newStatus: boolean) => {
     try {
-      await updateStatus(productId, newStatus);
+      // await updateStatus(productId, newStatus);
       setProducts((prevProducts) =>
         prevProducts.map((product) =>
           product._id === productId
@@ -144,7 +145,7 @@ const ProductList: React.FC = () => {
     newArrivalStatus: boolean
   ) => {
     try {
-      await updateNewArrival(productId, newArrivalStatus);
+      // await updateNewArrival(productId, newArrivalStatus);
       setProducts((prevProducts) =>
         prevProducts.map((product) =>
           product._id === productId
@@ -230,7 +231,7 @@ const ProductList: React.FC = () => {
       if (confirmation.isConfirmed) {
         for (const recordId of selectedRecords) {
           try {
-            await deleteProduct(recordId); 
+            // await deleteProduct(recordId); 
             setProducts((prev) => prev.filter((product) => product._id !== recordId)); 
             toast.success("Records deleted successfully!");
           } catch {
@@ -255,7 +256,7 @@ const ProductList: React.FC = () => {
         })
       );
   
-      downloadExcel(formattedData, "Products");
+      // downloadExcel(formattedData, "Products");
     }
   };
   
@@ -534,4 +535,4 @@ const ProductList: React.FC = () => {
   );
 };
 
-export default ProductList;
+export default RoomList;

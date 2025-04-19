@@ -2,7 +2,7 @@ import api from "../interceptors/axiosInterceptors";
 
 export const getRoom = async () => {
   try {
-    const response = await api.get("/products");
+    const response = await api.get("/room-category");
     if (response.status === 200) {
       return response.data.products;
     }
@@ -15,21 +15,21 @@ export const getRoom = async () => {
 
 export const createRoom = async (data: any) => {
   try {
-    const response = await api.post("/products", data);
+    const response = await api.post("/room-category", data);
     return response.data;
   } catch (error) {
     console.log(error);
   }
 };
 
-export const uploadRoom = async (data: any) => {
-  try {
-    const response = await api.post("/products/upload", data);
-    return response.data;
-  } catch (error) {
-    console.log(error);
-  }
-}
+// export const uploadRoom = async (data: any) => {
+//   try {
+//     const response = await api.post("/products/upload", data);
+//     return response.data;
+//   } catch (error) {
+//     console.log(error);
+//   }
+// }
 
 export const getById = async (id: string) => {
   try {
