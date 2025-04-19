@@ -2,82 +2,55 @@ import React, { memo } from "react";
 
 const Dashboard: React.FC = memo(() => {
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col p-4">
-   
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 p-6">
       <header className="flex justify-between items-center mb-8">
-        <h1 className="text-2xl font-bold text-gray-800">Dashboard</h1>
-
+        <h1 className="text-3xl font-extrabold text-blue-800">Admin Dashboard</h1>
       </header>
 
-      {/* Dashboard Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {[
-          { title: "Total Bookings", value: "₹12,345", change: "+12%" },
-          { title: "Total Rooms", value: "1,234", change: "+8%" },
-          { title: "Total Products", value: "567", change: "+5%" },
-          { title: "Total Customers", value: "4,321", change: "+10%" },
-        ].map((item, index) => (
-          <div key={index} className="bg-white p-6 rounded-lg shadow-md">
-            <h3 className="text-lg font-semibold text-gray-700">{item.title}</h3>
-            <p className="text-2xl font-bold text-gray-900">{item.value}</p>
-            <p className="text-sm text-gray-500">{item.change} from last month</p>
+      {/* Dashboard Summary Cards */}
+      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {[ 
+          { title: "Total Bookings", value: "120", icon: "📘", color: "bg-blue-100 text-blue-800" },
+          { title: "Total Rooms", value: "35", icon: "🛏️", color: "bg-purple-100 text-purple-800" },
+          { title: "Total Customers", value: "540", icon: "👥", color: "bg-green-100 text-green-800" },
+          { title: "Revenue", value: "₹1,20,000", icon: "💰", color: "bg-yellow-100 text-yellow-800" }
+        ].map((card, idx) => (
+          <div key={idx} className={`p-5 rounded-xl shadow-md ${card.color} transition hover:scale-[1.02]`}>
+            <div className="text-4xl mb-3">{card.icon}</div>
+            <h3 className="text-sm font-medium uppercase tracking-wide">{card.title}</h3>
+            <p className="text-2xl font-bold mt-1">{card.value}</p>
           </div>
         ))}
-      </div>
+      </section>
 
       {/* Recent Orders Table */}
-      <div className="mt-8 bg-white rounded-lg shadow-md overflow-x-auto">
-        <div className="p-6">
-          <h3 className="text-lg font-semibold text-gray-800">Recent Orders</h3>
-          <table className="w-full mt-4">
-            <thead>
-              <tr className="text-left border-b">
-                <th className="py-2">Order ID</th>
-                <th className="py-2">Customer</th>
-                <th className="py-2">Date</th>
-                <th className="py-2">Amount</th>
-                <th className="py-2">PyamentStatus</th>
+      <section className="mt-10 bg-white p-6 rounded-lg shadow-lg">
+        <h2 className="text-xl font-semibold text-gray-700 mb-4">Recent Bookings</h2>
+        <div className="overflow-x-auto">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-gray-100 text-gray-700 text-sm">
+              <tr>
+                <th className="px-6 py-3 text-left">Booking ID</th>
+                <th className="px-6 py-3 text-left">Customer</th>
+                <th className="px-6 py-3 text-left">Date</th>
+                <th className="px-6 py-3 text-left">Amount</th>
+                <th className="px-6 py-3 text-left">Status</th>
               </tr>
             </thead>
-
-
-            <tbody>
+            <tbody className="bg-white divide-y divide-gray-200">
               {[
-                {
-                  id: "#12345",
-                  name: "John Doe",
-                  date: "2025-02-10",
-                  amount: "₹199.99",
-                  paymentstatus: "Delivered",
-                  statusColor: "green",
-                },
-                {
-                  id: "#12346",
-                  name: "Jane Smith",
-                  date: "2025-02-09",
-                  amount: "₹299.99",
-                  paymentstatus: "Pending",
-                  statusColor: "yellow",
-                },
-                {
-                  id: "#12347",
-                  name: "Alice Johnson",
-                  date: "2025-02-08",
-                  amount: "₹99.99",
-                  paymentstatus: "Cancelled",
-                  statusColor: "red",
-                },
-              ].map((order, index) => (
-                <tr key={index} className="border-b border-black/30">
-                  <td className="py-4">{order.id}</td>
-                  <td className="py-4">{order.name}</td>
-                  <td className="py-4">{order.date}</td>
-                  <td className="py-4">{order.amount}</td>
-                  <td className="py-4">
-                    <span
-                      className={`px-2 py-1 bg-${order.statusColor}-500 text-${order.statusColor}-800 rounded-full text-sm`}
-                    >
-                      {order.paymentstatus}
+                { id: "B001", customer: "Akhil M", date: "2025-04-15", amount: "₹4,500", status: "Confirmed", color: "green" },
+                { id: "B002", customer: "Neha S", date: "2025-04-14", amount: "₹2,800", status: "Pending", color: "yellow" },
+                { id: "B003", customer: "Rahul V", date: "2025-04-13", amount: "₹6,000", status: "Cancelled", color: "red" }
+              ].map((item, index) => (
+                <tr key={index}>
+                  <td className="px-6 py-4 text-sm">{item.id}</td>
+                  <td className="px-6 py-4 text-sm">{item.customer}</td>
+                  <td className="px-6 py-4 text-sm">{item.date}</td>
+                  <td className="px-6 py-4 text-sm">{item.amount}</td>
+                  <td className="px-6 py-4 text-sm">
+                    <span className={`inline-block px-3 py-1 rounded-full text-xs font-medium bg-${item.color}-100 text-${item.color}-800`}>
+                      {item.status}
                     </span>
                   </td>
                 </tr>
@@ -85,7 +58,7 @@ const Dashboard: React.FC = memo(() => {
             </tbody>
           </table>
         </div>
-      </div>
+      </section>
     </div>
   );
 });

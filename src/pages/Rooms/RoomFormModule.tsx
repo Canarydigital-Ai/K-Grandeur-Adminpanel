@@ -1,40 +1,22 @@
 import React from "react";
 
-interface ProductFormModuleProps {
+interface RoomFormModuleProps {
   formData: {
     name: string;
     description: string;
-    price: number;
-    category: string;
-    stock: number;
-    isActive: boolean;
-    newArrival: boolean;
+    occupancy: number;
     imageUrl: File | null;
     imagePreview: string;
   };
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handleCategoryChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
-  handleIsActiveChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handleNewArrivalChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  categories: { _id: string; name: string }[];
 }
 
-const ProductFormModule: React.FC<ProductFormModuleProps> = ({
-  formData,
-  handleChange,
-  handleCategoryChange,
-  handleIsActiveChange,
-  handleNewArrivalChange,
-  categories = [],
-}) => {
-  // Ensure categories is always an array
-  const safeCategories = Array.isArray(categories) ? categories : [];
-
+const RoomFormModule: React.FC<RoomFormModuleProps> = ({ formData, handleChange }) => {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-3">
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-3">
       {/* Name */}
       <div>
-        <label htmlFor="name" className="block mb-1 text-gray-800 font-bold">
+        <label htmlFor="name" className="block mb-1 font-medium text-gray-700">
           Name
         </label>
         <input
@@ -43,18 +25,15 @@ const ProductFormModule: React.FC<ProductFormModuleProps> = ({
           name="name"
           value={formData.name}
           onChange={handleChange}
-          className="form-input w-full border border-gray-500 rounded px-4 py-2 focus:border-blue-500"
-          placeholder="Enter Name"
+          className="form-input w-full border border-gray-300 rounded px-4 py-2"
+          placeholder="Enter room name"
           required
         />
       </div>
 
       {/* Description */}
       <div>
-        <label
-          htmlFor="description"
-          className="block mb-1 text-gray-800 font-bold"
-        >
+        <label htmlFor="description" className="block mb-1 font-medium text-gray-700">
           Description
         </label>
         <input
@@ -63,122 +42,52 @@ const ProductFormModule: React.FC<ProductFormModuleProps> = ({
           name="description"
           value={formData.description}
           onChange={handleChange}
-          className="form-input w-full border border-gray-500 rounded px-4 py-2 focus:border-blue-500"
-          placeholder="Enter Description"
+          className="form-input w-full border border-gray-300 rounded px-4 py-2"
+          placeholder="Enter description"
           required
         />
       </div>
 
-      {/* Price */}
+      {/* Occupancy */}
       <div>
-        <label htmlFor="price" className="block mb-1 text-gray-800 font-bold">
-          Price
+        <label htmlFor="occupancy" className="block mb-1 font-medium text-gray-700">
+          Occupancy
         </label>
         <input
           type="number"
-          id="price"
-          name="price"
-          value={formData.price}
+          id="occupancy"
+          name="occupancy"
+          value={formData.occupancy}
           onChange={handleChange}
-          className="form-input w-full border border-gray-500 rounded px-4 py-2 focus:border-blue-500"
-          placeholder="Enter Price"
+          className="form-input w-full border border-gray-300 rounded px-4 py-2"
+          placeholder="Enter occupancy"
           required
         />
       </div>
 
-      {/* Category */}
+      {/* Image Upload */}
       <div>
-        <label
-          htmlFor="category"
-          className="block mb-1 text-gray-800 font-bold"
-        >
-          Category
-        </label>
-        <select
-          id="category"
-          name="category"
-          value={formData.category}
-          onChange={handleCategoryChange}
-          className="form-select w-full border border-gray-500 rounded px-4 py-2 focus:border-blue-500"
-          required
-        >
-          <option value="">Select Category</option>
-          {/* Safely map over categories with a defensive check */}
-          {safeCategories.map((category) => (
-            <option key={category._id} value={category._id}>
-              {category.name}
-            </option>
-          ))}
-        </select>
-      </div>
-
-      {/* Stock */}
-      <div>
-        <label htmlFor="stock" className="block mb-1 text-gray-800 font-bold">
-          Stock
-        </label>
-        <input
-          type="number"
-          id="stock"
-          name="stock"
-          value={formData.stock}
-          onChange={handleChange}
-          className="form-input w-full border border-gray-500 rounded px-4 py-2 focus:border-blue-500"
-          placeholder="Enter Stock Quantity"
-          required
-        />
-      </div>
-
-      <div>
-        <label htmlFor="image" className="block mb-1 text-gray-800 font-bold">
+        <label htmlFor="image" className="block mb-1 font-medium text-gray-700">
           Image
         </label>
         <input
           type="file"
           id="image"
           name="image"
-          onChange={handleChange}
-          className="form-input w-full border border-gray-500 rounded px-4 py-2 focus:border-blue-500"
           accept="image/*"
+          onChange={handleChange}
+          className="form-input w-full border border-gray-300 rounded px-4 py-2"
         />
         {formData.imagePreview && (
           <img
             src={formData.imagePreview}
             alt="Preview"
-            className="mt-2 w-32 h-32 object-cover rounded-lg"
+            className="mt-2 w-32 h-32 object-cover rounded"
           />
         )}
-      </div>
-
-      {/* Is Active */}
-      <div className="col-span-full">
-        <label className="block mb-1 text-gray-800 font-bold">Active</label>
-        <input
-          type="checkbox"
-          id="isActive"
-          name="isActive"
-          checked={formData.isActive}
-          onChange={handleIsActiveChange}
-          className="form-checkbox h-5 w-5 text-blue-500"
-        />
-        <span className="ml-2">Is Active</span>
-      </div>
-
-      <div className="flex items-center">
-        <input
-          type="checkbox"
-          id="newArrival"
-          name="newArrival"
-          checked={formData.newArrival}
-          onChange={handleNewArrivalChange}
-          className="form-checkbox h-5 w-5 text-blue-500"
-        />
-        <label htmlFor="newArrival" className="ml-2 text-gray-800">
-          New Arrival
-        </label>
       </div>
     </div>
   );
 };
 
-export default ProductFormModule;
+export default RoomFormModule;
