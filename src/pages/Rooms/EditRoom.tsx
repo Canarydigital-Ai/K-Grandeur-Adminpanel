@@ -12,6 +12,7 @@ const EditRoom: React.FC = () => {
   const [formData, setFormData] = useState({
     name: "",
     description: "",
+    price: 0,
     occupancy: 0,
     imageUrl: null as File | null,
     imagePreview: "",
@@ -31,6 +32,7 @@ const EditRoom: React.FC = () => {
           name: room.name || "",
           description: room.description || "",
           occupancy: room.occupancy || 0,
+          price: room.price || 0,
           imageUrl: null,
           imagePreview: room.imageUrl || "",
         });
@@ -86,6 +88,7 @@ const EditRoom: React.FC = () => {
           dataToSubmit = {
             name: formData.name,
             description: formData.description,
+            price: formData.price,
             occupancy: formData.occupancy,
           };
         }

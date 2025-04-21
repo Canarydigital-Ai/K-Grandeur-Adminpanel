@@ -18,12 +18,13 @@ import "react-toastify/dist/ReactToastify.css";
 import { IoIosArrowDown } from "react-icons/io";
 import { FaPlus } from "react-icons/fa";
 import ConfirmDialog from "../../components/dialogs/ConfirmDialog";
-import { getRoom } from "../../api/services/RoomService";
+import { deleteRoom, getRoom } from "../../api/services/RoomService";
 
 interface RoomCategory {
   _id: string;
   name: string;
   description: string;
+  price: number;
   occupancy: number;
   imageUrl: string;
   createdAt: Date;
@@ -87,11 +88,20 @@ const RoomList: React.FC = () => {
 
   const handleDelete = async () => {
     if (!selectedRoomId) return;
-    setRooms((prev) => prev.filter((room) => room._id !== selectedRoomId));
-    toast.success("Room deleted successfully!");
-    setIsDialogOpen(false);
-    setSelectedRoomId(null);
+  
+    try {
+      await deleteRoom(selectedRoomId); // 🔥 call the backend delete API
+      setRooms((prev) => prev.filter((room) => room._id !== selectedRoomId));
+      toast.success("Room deleted successfully!");
+    } catch (error) {
+      toast.error("Failed to delete room.");
+      console.error("Delete error:", error);
+    } finally {
+      setIsDialogOpen(false);
+      setSelectedRoomId(null);
+    }
   };
+  
 
   const openDialog = (id: string) => {
     setSelectedRoomId(id);
@@ -148,6 +158,7 @@ const RoomList: React.FC = () => {
     },
     { accessor: "name", title: "Name" },
     { accessor: "description", title: "Description" },
+    { accessor: "price", title: "Price" },
     { accessor: "occupancy", title: "Occupancy" },
     {
       accessor: "imageUrl",
