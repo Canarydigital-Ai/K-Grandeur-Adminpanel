@@ -11,10 +11,10 @@ const SidebarLayout: React.FC = () => {
   };
 
   return (
-    <div className="flex ">
+    <div className="flex h-screen overflow-hidden bg-gray-50">
       {/* Sidebar */}
       <div
-        className={`fixed top-0 left-0 min-h-screen border-r border-black/20 bg-gray-50  w-72  transition-transform duration-300 z-30 lg:relative lg:translate-x-0 ${
+        className={`fixed top-0 left-0 h-full w-72 border-r border-black/20 bg-white shadow-lg transition-transform duration-300 z-30 lg:relative lg:translate-x-0 ${
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
@@ -30,7 +30,7 @@ const SidebarLayout: React.FC = () => {
       )}
 
       {/* Main Content */}
-      <div className="flex-1 ">
+      <div className="flex-1 relative overflow-y-auto overflow-x-hidden">
         {/* Toggle Button */}
         <button
           onClick={toggleSidebar}
@@ -39,7 +39,7 @@ const SidebarLayout: React.FC = () => {
           <FaBars className="h-6 w-6" />
         </button>
 
-        <div>
+        <div className="p-4 sm:p-6 lg:px-8 lg:ml-0">
           <Outlet />
         </div>
       </div>
