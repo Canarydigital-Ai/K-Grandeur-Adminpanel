@@ -5,6 +5,7 @@ interface RoomFormModuleProps {
     name: string;
     description: string;
     price: number;
+    roomcount: number;
     occupancy: number;
     imageUrl: File | null;
     imagePreview: string;
@@ -62,6 +63,24 @@ const RoomFormModule: React.FC<RoomFormModuleProps> = ({ formData, handleChange 
           onChange={handleChange}
           className="form-input w-full border border-gray-300 rounded px-4 py-2"
           placeholder="Enter price"
+          required
+        />
+      </div>
+
+
+       {/* RoomCount */}
+       <div>
+        <label htmlFor="roomcount" className="block mb-1 font-medium text-gray-700">
+        RoomCount
+        </label>
+        <input
+          type="number"
+          id="roomcount"
+          name="roomcount"
+          value={formData.roomcount}
+          onChange={handleChange}
+          className="form-input w-full border border-gray-300 rounded px-4 py-2"
+          placeholder="Enter roomcount"
           required
         />
       </div>

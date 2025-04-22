@@ -25,6 +25,7 @@ interface RoomCategory {
   name: string;
   description: string;
   price: number;
+  roomcount: number;
   occupancy: number;
   imageUrl: string;
   createdAt: Date;
@@ -159,6 +160,7 @@ const RoomList: React.FC = () => {
     { accessor: "name", title: "Name" },
     { accessor: "description", title: "Description" },
     { accessor: "price", title: "Price" },
+    { accessor: "roomcount", title: "RoomCount" },
     { accessor: "occupancy", title: "Occupancy" },
     {
       accessor: "imageUrl",

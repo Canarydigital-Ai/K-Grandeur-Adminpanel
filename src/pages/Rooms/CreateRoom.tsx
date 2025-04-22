@@ -11,6 +11,7 @@ const CreateRoom: React.FC = () => {
     name: "",
     description: "",
     price: 0,
+    roomcount:0,
     occupancy: 0,
     imageUrl: null as File | null,
     imagePreview: "",
@@ -47,13 +48,14 @@ const CreateRoom: React.FC = () => {
         name: formData.name,
         description: formData.description,
         price: formData.price,
+        roomcount:formData.roomcount,
         occupancy: formData.occupancy,
         imageUrl,
       };
 
       await createRoom(dataToSubmit);
       setIsModalOpen(true);
-      setFormData({ name: "", description: "", price: 0, occupancy: 0, imageUrl: null, imagePreview: "" });
+      setFormData({ name: "", description: "", price: 0, roomcount:0, occupancy: 0, imageUrl: null, imagePreview: "" });
       setTimeout(() => navigate("/admin/rooms"), 2000);
     } catch (error) {
       console.error("Failed to create room:", error);

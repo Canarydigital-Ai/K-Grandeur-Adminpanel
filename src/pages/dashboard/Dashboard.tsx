@@ -1,6 +1,40 @@
-import React, { memo } from "react";
+import React, { memo, useEffect, useState } from "react";
+import { getAllBookings } from "../../api/services/bookingService";
+import { toast } from "react-toastify";
 
 const Dashboard: React.FC = memo(() => {
+  const [loading, setLoading] = useState(true);
+  const [bookingCount,setBookingCount] = useState();
+  const [customerCount, setCustomerCount] = useState(0);
+
+  useEffect(() => {
+    const fetchAllBookings = async () => {
+      setLoading(true);
+      try {
+        const data: any = await getAllBookings();
+        console.log(data, ".......................................");
+  
+        const uniqueEmails = new Set(data.map((booking:any) => booking.email));
+        setBookingCount(data.length);
+        setCustomerCount(uniqueEmails.size); 
+      } catch (error) {
+        toast.error("Failed to fetch bookings");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchAllBookings();
+  }, []);
+
+
+   if (loading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500 border-b-4"></div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 p-6">
       <header className="flex justify-between items-center mb-8">
@@ -10,9 +44,9 @@ const Dashboard: React.FC = memo(() => {
       {/* Dashboard Summary Cards */}
       <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {[ 
-          { title: "Total Bookings", value: "120", icon: "📘", color: "bg-blue-100 text-blue-800" },
+          { title: "Total Bookings", value: bookingCount, icon: "📘", color: "bg-blue-100 text-blue-800" },
           { title: "Total Rooms", value: "35", icon: "🛏️", color: "bg-purple-100 text-purple-800" },
-          { title: "Total Customers", value: "540", icon: "👥", color: "bg-green-100 text-green-800" },
+          { title: "Total Customers", value: customerCount, icon: "👥", color: "bg-green-100 text-green-800" },
           { title: "Revenue", value: "₹1,20,000", icon: "💰", color: "bg-yellow-100 text-yellow-800" }
         ].map((card, idx) => (
           <div key={idx} className={`p-5 rounded-xl shadow-md ${card.color} transition hover:scale-[1.02]`}>
