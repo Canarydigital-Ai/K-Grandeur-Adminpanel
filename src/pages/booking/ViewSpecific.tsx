@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { getBookingById, deleteBooking } from "../../api/services/bookingService";
-import { FaArrowLeft, FaEdit, FaTrash, FaTicketAlt, FaPrint } from "react-icons/fa";
+import { getBookingById} from "../../api/services/bookingService";
+import { FaArrowLeft, FaTicketAlt, FaPrint } from "react-icons/fa";
 import { MdPayment } from "react-icons/md";
-import ConfirmDialog from "../../components/dialogs/ConfirmDialog";
+
 
 interface Booking {
   _id: string;
@@ -33,7 +33,6 @@ const ViewBookingPage: React.FC = () => {
   const navigate = useNavigate();
   const [booking, setBooking] = useState<Booking | null>(null);
   const [loading, setLoading] = useState(true);
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   useEffect(() => {
     const fetchBookingDetails = async () => {
@@ -63,28 +62,6 @@ const ViewBookingPage: React.FC = () => {
     navigate("/admin/bookinglist");
   };
 
-  const handleEdit = () => {
-    navigate(`/admin/edit-booking/${id}`);
-  };
-
-  const openDialog = () => {
-    setIsDialogOpen(true);
-  };
-
-  const handleDelete = async () => {
-    if (!id) return;
-    
-    try {
-      await deleteBooking(id);
-      toast.success("Booking deleted successfully!");
-      navigate("/admin/bookings");
-    } catch (error) {
-      toast.error("Failed to delete booking");
-      console.error("Delete error:", error);
-    } finally {
-      setIsDialogOpen(false);
-    }
-  };
 
   const formatDate = (date: Date) => {
     const d = new Date(date);
@@ -144,18 +121,6 @@ const ViewBookingPage: React.FC = () => {
             className="bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-700 transition flex items-center"
           >
             <FaPrint className="mr-2" /> Print
-          </button>
-          <button
-            onClick={handleEdit}
-            className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition flex items-center"
-          >
-            <FaEdit className="mr-2" /> Edit
-          </button>
-          <button
-            onClick={openDialog}
-            className="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition flex items-center"
-          >
-            <FaTrash className="mr-2" /> Delete
           </button>
         </div>
       </div>
@@ -268,13 +233,13 @@ const ViewBookingPage: React.FC = () => {
         </div>
       </div>
 
-      <ConfirmDialog
+      {/* <ConfirmDialog
         isOpen={isDialogOpen}
         onClose={() => setIsDialogOpen(false)}
         onConfirm={handleDelete}
         title="Delete Booking"
         message="Are you sure you want to delete this booking? This action cannot be undone."
-      />
+      /> */}
     </div>
   );
 };
