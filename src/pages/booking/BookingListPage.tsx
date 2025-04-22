@@ -56,7 +56,7 @@ const BookingListPage: React.FC = () => {
   const [selectedBookingId, setSelectedBookingId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [hiddenColumns, setHiddenColumns] = useState<string[]>(["createdAt", "updatedAt", "tax", "basePrice"]);
+  const [hiddenColumns, setHiddenColumns] = useState<string[]>(["createdAt", "updatedAt", "tax",  "subTotal"]);
   const [selectedRecords, setSelectedRecords] = useState<string[]>([]);
 
   useEffect(() => {
@@ -114,10 +114,7 @@ const BookingListPage: React.FC = () => {
     }
   };
   
-  const openDialog = (id: string) => {
-    setSelectedBookingId(id);
-    setIsDialogOpen(true);
-  };
+
 
   const handleSelectRecord = (id: string) => {
     setSelectedRecords((prev) =>
