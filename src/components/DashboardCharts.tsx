@@ -145,7 +145,7 @@ const DashboardCharts: React.FC<DashboardChartsProps> = ({ bookingData }) => {
   };
 
   // Pie chart custom label
-  const renderCustomizedLabel = ({ cx, cy, midAngle, outerRadius, percent, name, value }: any) => {
+  const renderCustomizedLabel = ({ cx, cy, midAngle, outerRadius, percent, name }: any) => {
     const RADIAN = Math.PI / 180;
     const radius = outerRadius * 1.1;
     const x = cx + radius * Math.cos(-midAngle * RADIAN);
@@ -245,9 +245,11 @@ const DashboardCharts: React.FC<DashboardChartsProps> = ({ bookingData }) => {
               dataKey="value"
               nameKey="name"
             >
-              {paymentStatusData.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-              ))}
+             {paymentStatusData.map((entry, index) => (
+  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]}>
+    {entry.name} ({entry.value}) // Use the entry value
+  </Cell>
+))}
             </Pie>
             <Tooltip formatter={(value:any) => formatCurrency(value as number)} />
             <Legend />
