@@ -9,8 +9,7 @@ import {
   DataTableColumn,
   DataTableSortStatus,
 } from "mantine-datatable";
-import { RiDeleteBin6Line } from "react-icons/ri";
-import { FiEdit } from "react-icons/fi";
+import {  FiEye } from "react-icons/fi";
 import Dropdown from "../../layout/Dropdown";
 import "@mantine/core/styles.css";
 import "mantine-datatable/styles.css";
@@ -97,7 +96,7 @@ const BookingListPage: React.FC = () => {
     setRecords(sortedData.slice((page - 1) * pageSize, page * pageSize));
   }, [bookings, debouncedQuery, sortStatus, page, pageSize]);
 
-  const handleEdit = (id: string) => navigate(`/admin/edit-booking/${id}`);
+  const handleViewSecific = (id: string) => navigate(`/admin/view-booking/${id}`);
 
   const handleDelete = async () => {
     if (!selectedBookingId) return;
@@ -176,11 +175,8 @@ const BookingListPage: React.FC = () => {
       title: "Actions",
       render: ({ _id }) => (
         <div className="flex items-center space-x-1">
-          <ActionIcon onClick={() => handleEdit(_id)} title="Edit" className="text-blue-500" variant="transparent">
-            <FiEdit />
-          </ActionIcon>
-          <ActionIcon onClick={() => openDialog(_id)} title="Delete" className="text-red-500" variant="transparent">
-            <RiDeleteBin6Line />
+          <ActionIcon onClick={() => handleViewSecific(_id)} title="ViewSpecific" className="text-blue-500" variant="transparent">
+            <FiEye />
           </ActionIcon>
         </div>
       ),

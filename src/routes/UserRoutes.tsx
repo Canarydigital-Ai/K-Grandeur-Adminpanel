@@ -3,13 +3,14 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import ProtectRouter from "../utils/ProtectRouter";
 import SidebarLayout from "../layout/SidebarLayout"; 
-import BookingListPage from "../pages/booking/BookingListPage";
 
 const AdminLogin = lazy(() => import("../pages/auth/AdminLogin"));
 const Dashboard = lazy(() => import("../pages/dashboard/Dashboard"));
 const RoomList = lazy(() => import("../pages/Rooms/RoomList"));
 const CreateRoom = lazy(() => import("../pages/Rooms/CreateRoom"));
 const EditRoom = lazy(() => import("../pages/Rooms/EditRoom"));
+const BookingListPage = lazy(() => import("../pages/booking/BookingListPage"));
+const ViewBookingPage = lazy(() => import("../pages/booking/ViewSpecific"));
 
 const AppRoutes = memo(() => {
   return (
@@ -31,6 +32,7 @@ const AppRoutes = memo(() => {
             <Route path="create-room" element={<CreateRoom />} />
             <Route path="edit-room/:id" element={<EditRoom />} />
             <Route path="bookinglist" element={<BookingListPage />} />
+            <Route path="view-booking/:id" element={<ViewBookingPage />} />
           </Route>
         </Route>
       </Routes>
