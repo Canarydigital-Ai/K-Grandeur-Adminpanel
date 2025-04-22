@@ -6,7 +6,7 @@ import AdminLogo from "../../assets/AdminLogo.jpg";
 const navItems = [
   { label: "Dashboard", icon: <FiHome />, path: "/admin/dashboard" },
   { label: "Rooms", icon: <FiBox />, path: "/admin/rooms" },
-  { label: "Bookings", icon: <FiGrid />, path: "/admin/bookings" },
+  { label: "Bookings", icon: <FiGrid />, path: "/admin/bookinglist" },
   { label: "Category", icon: <FiTag />, path: "/admin/category" },
   { label: "Customers", icon: <FiUser />, path: "/admin/customers" },
   { label: "Logout", icon: <FiLogOut />, path: "/admin/login", isLogout: true },
