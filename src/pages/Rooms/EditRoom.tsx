@@ -13,6 +13,7 @@ const EditRoom: React.FC = () => {
     name: "",
     description: "",
     price: 0,
+    roomcount:0,
     occupancy: 0,
     imageUrl: null as File | null,
     imagePreview: "",
@@ -33,6 +34,7 @@ const EditRoom: React.FC = () => {
           description: room.description || "",
           occupancy: room.occupancy || 0,
           price: room.price || 0,
+          roomcount: room.roomcount || 0,
           imageUrl: null,
           imagePreview: room.imageUrl || "",
         });
