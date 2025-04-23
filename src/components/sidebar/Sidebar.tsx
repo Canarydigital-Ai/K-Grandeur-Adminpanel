@@ -14,7 +14,7 @@ const navItems = [
 const Sidebar: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [isNavigating, setIsNavigating] = useState(false);
+  const [, setIsNavigating] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   
   // Find active item based on current path
@@ -88,11 +88,7 @@ const Sidebar: React.FC = () => {
           <h2 className="text-xl font-bold text-gray-800 mb-6">Admin Panel</h2>
         </div>
 
-        {isNavigating && (
-          <div className="w-full bg-blue-100 text-blue-800 px-4 py-2 rounded mb-4 text-center text-sm">
-            Loading...
-          </div>
-        )}
+
 
         <nav className="space-y-2">
           {navItems.map((item, index) => {

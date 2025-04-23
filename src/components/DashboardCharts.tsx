@@ -42,8 +42,15 @@ const DashboardCharts: React.FC<DashboardChartsProps> = ({ bookingData }) => {
   const [roomDistribution, setRoomDistribution] = useState<any[]>([]);
   const [paymentStatusData, setPaymentStatusData] = useState<any[]>([]);
   
-  // Colors for charts
-  const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8', '#82ca9d'];
+  // Modern color theme
+  const CHART_COLORS = {
+    bookings: '#8884d8',      // Purple for bookings
+    revenue: '#82ca9d',       // Green for revenue
+    paid: '#4cc9f0',          // Light blue for paid
+    unpaid: '#f72585',        // Pink for unpaid
+    gridLines: '#f0f0f0',     // Light gray for grid lines
+    textColor: '#333333'      // Dark gray for text
+  };
 
   useEffect(() => {
     if (bookingData?.length > 0) {
@@ -91,7 +98,8 @@ const DashboardCharts: React.FC<DashboardChartsProps> = ({ bookingData }) => {
         return acc;
       }, {} as Record<string, { name: string; bookings: number; revenue: number }>);
       
-      setRoomDistribution(Object.values(roomStats));
+      // Sort rooms by bookings count
+      setRoomDistribution(Object.values(roomStats).sort((a, b) => b.bookings - a.bookings));
 
       // Payment status distribution
       const paymentStats = bookingData.reduce(
@@ -111,7 +119,31 @@ const DashboardCharts: React.FC<DashboardChartsProps> = ({ bookingData }) => {
         }
       );
 
-      setPaymentStatusData([paymentStats.paid, paymentStats.unpaid]);
+      // Calculate percentages for payment status
+      const totalValue = paymentStats.paid.value + paymentStats.unpaid.value;
+      const paidPercentage = Math.round((paymentStats.paid.value / totalValue) * 100);
+      const unpaidPercentage = Math.round((paymentStats.unpaid.value / totalValue) * 100);
+      
+      // Format values for the pie chart labels
+      const formattedPaid = formatCurrency(paymentStats.paid.value);
+      const formattedUnpaid = formatCurrency(paymentStats.unpaid.value);
+      
+      setPaymentStatusData([
+        { 
+          name: 'Paid', 
+          count: paymentStats.paid.count, 
+          value: paymentStats.paid.value,
+          percentage: paidPercentage,
+          displayName: `Paid: ${formattedPaid}`
+        },
+        { 
+          name: 'Unpaid', 
+          count: paymentStats.unpaid.count, 
+          value: paymentStats.unpaid.value,
+          percentage: unpaidPercentage,
+          displayName: `Unpaid: ${formattedUnpaid}`
+        }
+      ]);
     }
   }, [bookingData]);
 
@@ -125,7 +157,7 @@ const DashboardCharts: React.FC<DashboardChartsProps> = ({ bookingData }) => {
     }).format(value);
   };
 
-  // Custom tooltip for the charts
+  // Enhanced custom tooltip
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
       return (
@@ -145,11 +177,14 @@ const DashboardCharts: React.FC<DashboardChartsProps> = ({ bookingData }) => {
   };
 
   // Pie chart custom label
-  const renderCustomizedLabel = ({ cx, cy, midAngle, outerRadius, percent, name }: any) => {
+  const renderCustomizedLabel = ({ cx, cy, midAngle, outerRadius, percent, name, value }: any) => {
     const RADIAN = Math.PI / 180;
     const radius = outerRadius * 1.1;
     const x = cx + radius * Math.cos(-midAngle * RADIAN);
     const y = cy + radius * Math.sin(-midAngle * RADIAN);
+    
+    const formattedValue = formatCurrency(value);
+    const displayText = `${name}: ${(percent * 100).toFixed(0)}% (${formattedValue})`;
 
     return (
       <text 
@@ -160,7 +195,7 @@ const DashboardCharts: React.FC<DashboardChartsProps> = ({ bookingData }) => {
         dominantBaseline="central"
         className="text-xs"
       >
-        {`${name} (${(percent * 100).toFixed(0)}%)`}
+        {displayText}
       </text>
     );
   };
@@ -175,10 +210,21 @@ const DashboardCharts: React.FC<DashboardChartsProps> = ({ bookingData }) => {
             data={monthlyBookings}
             margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
           >
-            <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-            <XAxis dataKey="month" />
-            <YAxis yAxisId="left" />
-            <YAxis yAxisId="right" orientation="right" />
+            <CartesianGrid strokeDasharray="3 3" stroke={CHART_COLORS.gridLines} />
+            <XAxis 
+              dataKey="month" 
+              tick={{ fill: CHART_COLORS.textColor }}
+            />
+            <YAxis 
+              yAxisId="left" 
+              tick={{ fill: CHART_COLORS.textColor }}
+            />
+            <YAxis 
+              yAxisId="right" 
+              orientation="right" 
+              tick={{ fill: CHART_COLORS.textColor }}
+              tickFormatter={(value) => `₹${value/1000}k`}
+            />
             <Tooltip content={<CustomTooltip />} />
             <Legend />
             <Line
@@ -186,15 +232,17 @@ const DashboardCharts: React.FC<DashboardChartsProps> = ({ bookingData }) => {
               type="monotone"
               dataKey="bookings"
               name="Bookings"
-              stroke="#8884d8"
+              stroke={CHART_COLORS.bookings}
               activeDot={{ r: 8 }}
+              strokeWidth={2}
             />
             <Line
               yAxisId="right"
               type="monotone"
               dataKey="revenue"
               name="Revenue (₹)"
-              stroke="#82ca9d"
+              stroke={CHART_COLORS.revenue}
+              strokeWidth={2}
             />
           </LineChart>
         </ResponsiveContainer>
@@ -206,25 +254,44 @@ const DashboardCharts: React.FC<DashboardChartsProps> = ({ bookingData }) => {
         <ResponsiveContainer width="100%" height={300}>
           <BarChart
             data={roomDistribution}
-            margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+            margin={{ top: 5, right: 30, left: 20, bottom: 30 }}
+            barSize={30}
+            barGap={15}
           >
-            <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-            <XAxis dataKey="name" />
-            <YAxis yAxisId="left" />
-            <YAxis yAxisId="right" orientation="right" />
+            <CartesianGrid strokeDasharray="3 3" stroke={CHART_COLORS.gridLines} />
+            <XAxis 
+              dataKey="name" 
+              tick={{ fill: CHART_COLORS.textColor }}
+              interval={0}
+              angle={0}
+              textAnchor="middle"
+              height={40}
+            />
+            <YAxis 
+              yAxisId="left" 
+              tick={{ fill: CHART_COLORS.textColor }}
+            />
+            <YAxis 
+              yAxisId="right" 
+              orientation="right" 
+              tick={{ fill: CHART_COLORS.textColor }}
+              tickFormatter={(value) => `₹${value/1000}k`}
+            />
             <Tooltip content={<CustomTooltip />} />
             <Legend />
             <Bar
               yAxisId="left"
               dataKey="bookings"
               name="Number of Bookings"
-              fill="#8884d8"
+              fill={CHART_COLORS.bookings}
+              radius={[4, 4, 0, 0]}
             />
             <Bar
               yAxisId="right"
               dataKey="revenue"
               name="Revenue (₹)"
-              fill="#82ca9d"
+              fill={CHART_COLORS.revenue}
+              radius={[4, 4, 0, 0]}
             />
           </BarChart>
         </ResponsiveContainer>
@@ -242,19 +309,47 @@ const DashboardCharts: React.FC<DashboardChartsProps> = ({ bookingData }) => {
               labelLine={true}
               label={renderCustomizedLabel}
               outerRadius={100}
+              innerRadius={40} // Donut chart effect
               dataKey="value"
               nameKey="name"
+              paddingAngle={2}
             >
-             {paymentStatusData.map((entry, index) => (
-  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]}>
-    {entry.name} ({entry.value}) // Use the entry value
-  </Cell>
-))}
+              <Cell key="cell-0" fill={CHART_COLORS.paid} />
+              <Cell key="cell-1" fill={CHART_COLORS.unpaid} />
             </Pie>
             <Tooltip formatter={(value:any) => formatCurrency(value as number)} />
-            <Legend />
+            <Legend 
+  formatter={( entry) => entry.payload?.value || 'Unknown'}
+  layout="vertical"
+  verticalAlign="middle"
+  align="right"
+/>
           </PieChart>
         </ResponsiveContainer>
+        {/* Bottom status cards */}
+        <div className="mt-4 grid grid-cols-2 gap-4">
+          {paymentStatusData.map((item, index) => (
+            <div 
+              key={index} 
+              className="text-center p-2 rounded-md" 
+              style={{ 
+                backgroundColor: index === 0 ? 'rgba(76, 201, 240, 0.1)' : 'rgba(247, 37, 133, 0.1)'
+              }}
+            >
+              <div 
+                className="text-2xl font-bold" 
+                style={{ 
+                  color: index === 0 ? CHART_COLORS.paid : CHART_COLORS.unpaid 
+                }}
+              >
+                {item.count}
+              </div>
+              <div className="text-sm text-gray-600">
+                {item.name} Bookings
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
