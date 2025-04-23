@@ -15,7 +15,6 @@ import "@mantine/core/styles.css";
 import "mantine-datatable/styles.css";
 import "react-toastify/dist/ReactToastify.css";
 import { IoIosArrowDown } from "react-icons/io";
-import { FaPlus } from "react-icons/fa";
 import ConfirmDialog from "../../components/dialogs/ConfirmDialog";
 import { deleteBooking, getAllBookings } from "../../api/services/bookingService";
 
@@ -128,7 +127,6 @@ const BookingListPage: React.FC = () => {
     );
   };
 
-  const handleCreate = () => navigate("/admin/create-booking");
 
   const formatDate = (date: Date) => {
     const d = new Date(date);
@@ -253,13 +251,6 @@ const BookingListPage: React.FC = () => {
       <h2 className="text-2xl font-bold mb-4 text-gray-800">Bookings</h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
-        <button
-          className="bg-blue-600 text-white h-11 rounded-md hover:bg-blue-700 transition flex items-center justify-center w-full"
-          onClick={handleCreate}
-        >
-          <FaPlus className="mr-2" /> Create Booking
-        </button>
-
         <div>
           <Dropdown
             btnClassName="w-full flex items-center border border-gray-300 rounded-md px-4 py-2 text-sm bg-white shadow-sm hover:bg-gray-100"
